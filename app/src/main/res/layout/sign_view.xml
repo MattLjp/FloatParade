@@ -6,13 +6,26 @@
 
     <ImageView
         android:id="@+id/iv_sign"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@mipmap/dot"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_sign2"
+        app:layout_constraintEnd_toStartOf="@+id/tv_sign_name"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/iv_sign2"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:src="@mipmap/dot2"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/tv_sign_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/tv_sign_name"
@@ -20,6 +33,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:text="美食城"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,6 +44,7 @@
         android:background="@color/teal_200"
         android:text="正常"
         android:textColor="@color/white"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_sign_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_sign_name" />

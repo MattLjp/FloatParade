@@ -1,14 +1,12 @@
 package com.itc.floatparade
 
 import android.content.Context
-import android.graphics.Matrix
+import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
-import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
@@ -25,7 +23,7 @@ class MapView : FrameLayout {
     private val TAG = MapView::class.java.simpleName
 
     //地图图片
-    private var mapImage = ImageView(context)
+    private var mapImage = MapImageView(context)
 
     private var mapWidth = 0
 
@@ -42,6 +40,8 @@ class MapView : FrameLayout {
     private var signViewList = mutableListOf<SignView>()
 
     private var capturedViewIndex = 0
+
+    private var signOffset = IntArray(2)
 
     private val mDragger: ViewDragHelper =
         ViewDragHelper.create(this, 1.0f, object : ViewDragHelper.Callback() {
@@ -80,10 +80,10 @@ class MapView : FrameLayout {
             }
 
             override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
-                val move = if (top <= mapTop)
-                    mapTop
-                else if (top >= mapHeight + mapTop)
-                    mapHeight + mapLeft
+                val move = if (top <= mapTop - signOffset[1])
+                    mapTop - signOffset[1]
+                else if (top >= mapHeight + mapTop - signOffset[1])
+                    mapHeight + mapTop - signOffset[1]
                 else
                     top
                 return move
@@ -123,14 +123,13 @@ class MapView : FrameLayout {
      * @param list List<SignBean>
      */
     fun setSignData(list: List<SignBean>) {
-        val mapOffset = getBitmapOffset(mapImage, true)
+        val mapOffset = mapImage.getBitmapOffset(true)
         mapLeft = mapOffset[0]
         mapTop = mapOffset[1]
 
         mapWidth = mapImage.width - mapLeft * 2
         mapHeight = mapImage.height - mapTop * 2
 
-        var signOffset = IntArray(2)
         var boolean = true
 
         Log.d(TAG, "mapWidth:$mapWidth, mapHeight:$mapHeight, mapLeft:$mapLeft, mapTop:$mapTop")
@@ -153,6 +152,10 @@ class MapView : FrameLayout {
             signViewList.add(signView)
             signOffsetList.add(intArrayOf((it.x * mapWidth).toInt(), (it.y * mapHeight).toInt()))
         }
+    }
+
+    fun createRoute() {
+        mapImage.createRoute(signOffsetList)
     }
 
 
@@ -193,28 +196,6 @@ class MapView : FrameLayout {
         return params
     }
 
-
-    /**
-     * 计算图像在ImageView的位移量
-     * @param img ImageView
-     * @param includeLayout Boolean
-     * @return IntArray?
-     */
-    private fun getBitmapOffset(img: ImageView, includeLayout: Boolean): IntArray {
-        val offset = IntArray(2)
-        val values = FloatArray(9)
-        val m: Matrix = img.imageMatrix
-        m.getValues(values)
-        offset[0] = values[2].toInt()
-        offset[1] = values[5].toInt()
-
-        if (includeLayout) {
-            val lp = img.layoutParams as MarginLayoutParams
-            offset[0] += img.paddingLeft + lp.leftMargin
-            offset[1] += img.paddingTop + lp.topMargin
-        }
-        return offset
-    }
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         return mDragger.shouldInterceptTouchEvent(event)

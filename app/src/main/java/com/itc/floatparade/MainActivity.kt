@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity() {
             val list = binding.map.getMoveSignData()
             binding.tvSignList.text = list.toString()
         }
+
+        binding.btnRoute.setOnClickListener {
+            binding.map.createRoute()
+        }
     }
 
 }

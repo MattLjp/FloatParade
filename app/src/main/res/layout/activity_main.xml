@@ -10,7 +10,7 @@
         android:id="@+id/map"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/tv_add_sign"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,8 +21,8 @@
         android:id="@+id/tv_add_sign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
         android:text="添加坐标"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -31,21 +31,27 @@
         android:id="@+id/btn_get_sign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="25dp"
         android:text="获取坐标"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_add_sign"
         app:layout_constraintTop_toBottomOf="@+id/map" />
 
     <TextView
         android:id="@+id/tv_sign_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_get_sign"
-        app:layout_constraintStart_toEndOf="@+id/tv_add_sign"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_route"
         app:layout_constraintTop_toBottomOf="@+id/map" />
+
+    <Button
+        android:id="@+id/btn_route"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="连接路径"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_add_sign"
+        app:layout_constraintStart_toEndOf="@+id/btn_get_sign"
+        app:layout_constraintTop_toTopOf="@+id/tv_add_sign" />
 </androidx.constraintlayout.widget.ConstraintLayout>

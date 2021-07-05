@@ -21,8 +21,11 @@ class SignView : ConstraintLayout {
 
     private var view: View
     private var signIv: ImageView
+    private var signIv2: ImageView
     private var signNameTv: TextView
     private var signStateTv: TextView
+
+    private var show = false
 
     constructor(context: Context) : super(context)
 
@@ -37,8 +40,25 @@ class SignView : ConstraintLayout {
     init {
         view = LayoutInflater.from(context).inflate(R.layout.sign_view, this, true)
         signIv = view.findViewById(R.id.iv_sign)
+        signIv2 = view.findViewById(R.id.iv_sign2)
         signNameTv = view.findViewById(R.id.tv_sign_name)
         signStateTv = view.findViewById(R.id.tv_sign_state)
+        signIv.setOnClickListener {
+            if (show) {
+                show = true
+                signIv2.visibility = View.VISIBLE
+                signIv2.visibility = View.INVISIBLE
+                signNameTv.visibility = View.INVISIBLE
+                signStateTv.visibility = View.INVISIBLE
+            } else {
+                show = true
+                signIv2.visibility = View.INVISIBLE
+                signIv2.visibility = View.VISIBLE
+                signNameTv.visibility = View.VISIBLE
+                signStateTv.visibility = View.VISIBLE
+            }
+
+        }
     }
 
     /**
@@ -58,13 +78,12 @@ class SignView : ConstraintLayout {
     fun getSignOffset(): IntArray {
         val w = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         val h = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
-        signIv.measure(w, h)
+        measure(w, h)
 
         val offset = IntArray(2)
-        val signImageWidth = signIv.measuredWidth
-        val signImageHeight = signIv.measuredHeight
-        offset[0] = signImageWidth / 2
-        offset[1] = 20 + signImageHeight - offset[0]
+        offset[0] = signIv2.measuredWidth / 2
+        offset[1] =
+            signIv2.measuredHeight + (signIv2.layoutParams as MarginLayoutParams).topMargin - offset[0]
         Log.d(TAG, "getSignOffset: x:${offset[0]}, y:${offset[1]}")
         return offset
     }
